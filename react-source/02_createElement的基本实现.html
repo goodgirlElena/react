@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React.createElement的基本实现</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    // const element = <div title="react"><p>Hello</p><b>React</b></div>
+    const React = {
+      createElement: function(type, props, ...children) {
+        return {
+          type,
+          props: {
+            ...props,
+            children: children.map(child => {
+              if(typeof child === 'object') {
+                return child;
+              } else {
+                return {
+                  type: 'TEXT_NODE',
+                  props: {
+                    nodeValue: child,
+                    children: []
+                  }
+                }
+              }
+            })
+          }
+        }
+      }
+    }
+
+    // babel转化后
+    const divObject = React.createElement('div', {
+      title: 'react'
+    },React.createElement('p', null, 'Hello'), React.createElement('b', null, 'React'));
+    console.log(divObject)
+
+  </script>
+</body>
+</html>

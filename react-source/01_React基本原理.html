@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React原理解读</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    // const element = <div title="hello">Hello React</div>
+    // const root = document.getElementById('root')
+    // ReactDOM.render(element, root);
+
+    // 1. JSX（const element = <div title="hello">Hello React</div>）代码会被babel转化成以下代码
+    // const element = React.createElement('div', {
+    //   title: 'hello'
+    // }, "Hello React")
+
+    // 2. React.createElement方法会将代码转化成以下代码
+    const element = {
+      type: 'div',
+      props: {
+        title: 'hello',
+        children: 'Hello React'
+      }
+    }
+
+    const root = document.getElementById('root');
+
+    // 3. ReactDOM.render方法会将element对象描述的虚拟DOM渲染到真实DOM上
+    const node = document.createElement(element.type);
+    node['title'] = element.props.title;
+
+    const text = document.createTextNode("");
+    text["nodeValue"] = element.props.children;
+    node.appendChild(text);
+    root.appendChild(node);
+
+  </script>
+</body>
+</html>
